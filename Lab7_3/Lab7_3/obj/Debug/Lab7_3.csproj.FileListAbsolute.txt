@@ -1,0 +1,15 @@
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\obj\Debug\Lab7_3.csprojResolveAssemblyReference.cache
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\obj\Debug\Lab7_3.MainForm.resources
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\obj\Debug\Lab7_3.csproj.GenerateResource.Cache
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\bin\Debug\Lab7_3.exe.config
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\bin\Debug\Lab7_3.exe
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\bin\Debug\Lab7_3.pdb
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\obj\Debug\Lab7_3.exe
+C:\Users\Oleg\Desktop\Lab7_3\Lab7_3\obj\Debug\Lab7_3.pdb
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\obj\Debug\Lab7_3.pdb
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\bin\Debug\Lab7_3.exe
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\bin\Debug\Lab7_3.pdb
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\obj\Debug\Lab7_3.csprojResolveAssemblyReference.cache
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\obj\Debug\Lab7_3.MainForm.resources
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\obj\Debug\Lab7_3.csproj.GenerateResource.Cache
+C:\Users\Oleg\Desktop\graphic\Lab7_3\Lab7_3\obj\Debug\Lab7_3.exe
