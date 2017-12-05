@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Lab7
 {
-
 	public delegate double Functions(double x, double y);
 	/// <summary>
 	/// Description of MainForm.
@@ -37,7 +37,8 @@ namespace Lab7
 		double[,] center_matr = new double[4,4];
 		double[,] isometric_matr = new double[4,4];
 		double[,] ortographic_matr = new double[4,4];
-		//List<point3D> axises = new List<point3D>();
+		List<List<point3D>> pts_rotate = new List<List<point3D>>();
+		int clcs=0;
 	
 		public Form1()
 		{	
@@ -47,9 +48,6 @@ namespace Lab7
 			this.center_matr[3,3]=1;
 			this.isometric_matr[3,3]=1;
 			this.ortographic_matr[3,3]=1;
-			//axises.Add(new point3D(0,0,300));
-			//axises.Add(new point3D(0,300,0));
-			//axises.Add(new point3D(300,0,0));
 		}
 		
 		private void Form1_Load(object sender, EventArgs e)
@@ -68,10 +66,14 @@ namespace Lab7
 		
 		private void draw_point(point3D p)
 		{
-			g.FillEllipse(new SolidBrush(Color.Gray), (int)Math.Round(p.X + centerX - 6), (int)Math.Round(-p.Y + centerY - 6), 12, 12);
-			//g.FillEllipse(new SolidBrush(Color.Gray), (int)Math.Round(axises[0].X + centerX - 6), (int)Math.Round(-axises[0].Y + centerY - 6), 12, 12);
-			//g.FillEllipse(new SolidBrush(Color.Gray), (int)Math.Round(axises[1].X + centerX - 6), (int)Math.Round(-axises[1].Y + centerY - 6), 12, 12);
-			//g.FillEllipse(new SolidBrush(Color.Gray), (int)Math.Round(axises[2].X + centerX - 6), (int)Math.Round(-axises[2].Y + centerY - 6), 12, 12);
+			g.FillEllipse(new SolidBrush(Color.Gray), (int)Math.Round(p.X + centerX - 6), 
+																	(int)Math.Round(-p.Y + centerY - 6), 12, 12);
+		}
+		
+		private void draw_point_rotate(point3D p)
+		{
+			g.FillEllipse(new SolidBrush(Color.Green), (int)Math.Round(p.X + centerX - 3), 
+																	(int)Math.Round(-p.Y + centerY - 3), 6, 6);
 		}
 		
 		private void draw_facet(facet f)
@@ -100,18 +102,8 @@ namespace Lab7
 			    draw_point(axis_P2);
 			    g.DrawLine(pen_lines, (int)Math.Round(axis_P1.X + centerX), (int)Math.Round(-axis_P1.Y + centerY), (int)Math.Round(axis_P2.X + centerX), (int)Math.Round(-axis_P2.Y + centerY));
 			}
-			//draw_axises();
 			pictureBox.Image = bmp;
 		}
-		
-//		private void draw_axises(){
-//			for (int i = 0; i < 3; i++)
-//			{
-//			    int x1 = centerX; int x2 = (int)Math.Round(axises[i].X + centerX);
-//			    int y1 = centerY; int y2 = (int)Math.Round(-axises[i].Y + centerY);
-//			    g.DrawLine(pen_facets, x1, y1, x2, y2);
-//			}
-//		}
 		
 		private void add_points_to_tetrahedron(int size)
 		{
@@ -379,8 +371,7 @@ namespace Lab7
 			}
 			}
 			
-		private point3D normalize_vector(point3D pt1, point3D pt2)
-			{
+		private point3D normalize_vector(point3D pt1, point3D pt2){
 			double x = pt2.X - pt1.X;
 			double y = pt2.Y - pt1.Y;
 			double z = pt2.Z - pt1.Z;
@@ -458,8 +449,10 @@ namespace Lab7
 		
 		private void button10_Click(object sender, EventArgs e)
 		{
+			axis_P1=axis_P2=null;
 			points.Clear();
 			facets.Clear();
+			pts_rotate.Clear();
 			g.FillRectangle(new SolidBrush(Color.White), 0, 0, pictureBox.Size.Width, pictureBox.Size.Height);
 			pictureBox.Invalidate();
 		}
@@ -490,17 +483,22 @@ namespace Lab7
 		{
 			if (!is_axis || e.Button != System.Windows.Forms.MouseButtons.Left)
 			    return;
-			if (axis_P1 == null)
-			{
+			if (axis_P1 == null){
+				pts_rotate.Add(new List<point3D>());
 			    axis_P1 = new point3D((e.X - centerX), (-e.Y + centerY), 0);
 			    draw_point(axis_P1);
 			}
-			else
-			{
+			else if (axis_P2 == null){
 			    axis_P2 = new point3D((e.X - centerX), (-e.Y + centerY), 0);
 			    draw_point(axis_P2);
-			    g.DrawLine(pen_lines, (int)Math.Round(axis_P1.X + centerX), (int)Math.Round(-axis_P1.Y + centerY), (int)Math.Round(axis_P2.X + centerX), (int)Math.Round(-axis_P2.Y + centerY));
-			    is_axis = false;
+			    g.DrawLine(pen_lines, (int)Math.Round(axis_P1.X + centerX), (int)Math.Round(-axis_P1.Y + centerY), 
+			    							  (int)Math.Round(axis_P2.X + centerX), (int)Math.Round(-axis_P2.Y + centerY));
+			}
+			else{
+				if (clcs==0) return;
+				point3D pt = new point3D((e.X - centerX), (-e.Y + centerY), 0);
+				pts_rotate[0].Add(pt);
+				draw_point_rotate(pt);
 			}
 			pictureBox.Image = bmp;
 		}
@@ -532,28 +530,54 @@ namespace Lab7
 			    p.Z += pt1.Z;
 			}
 		}
-     
-		public void CheckedChanged(object sender, System.EventArgs e)
+		
+		private void rotate_0X_new(ref point3D p, double angle)
 		{
-			this.label14.Visible=false;
-			this.label15.Visible=false;
-			this.label16.Visible=false;
-			this.textBox1.Visible=false;
-			this.textBox2.Visible=false;
-			this.textBox3.Visible=false;
-			this.comboBox2.Visible=false;
-			if (this.center.Checked){
-				this.label14.Visible=true;
-				this.label15.Visible=true;
-
-				this.label16.Visible=true;
-				this.textBox1.Visible=true;
-				this.textBox2.Visible=true;
-				this.textBox3.Visible=true;
-			}
-			else if (this.isometric.Checked){}
-			else if (this.orthographic.Checked)
-				this.comboBox2.Visible=true;
+			double y = p.Y;
+			double z = p.Z;
+			p.Y = y * Math.Cos(angle) + z * Math.Sin(angle);
+			p.Z = y * -Math.Sin(angle) + z * Math.Cos(angle);
+		}
+		
+		private void rotate_0Y_new(ref point3D p, double angle)
+		{
+			double x = p.X;
+			double z = p.Z;
+			p.X = x * Math.Cos(angle) + z * -Math.Sin(angle);
+			p.Z = x * Math.Sin(angle) + z * Math.Cos(angle);
+		}
+		
+		private void rotate_0Z_new(ref point3D p, double angle)
+		{
+			double x = p.X;
+			double y = p.Y;
+			p.X = x * Math.Cos(angle) + y * Math.Sin(angle);
+			p.Y = x * -Math.Sin(angle) + y * Math.Cos(angle);
+		}
+		
+		private point3D axis_rotate_point(point3D pt1, point3D pt2, point3D p, double angle){
+			point3D c = normalize_vector(pt1, pt2);
+			
+			double x = c.X, y = c.Y, z = c.Z;
+			double d = Math.Sqrt(y * y + z * z);
+			double alpha = -Math.Asin(y / d);
+			double beta = Math.Asin(x);
+			point3D new_p = new point3D(p.X,p.Y,p.Z);
+			new_p.X -= pt1.X;
+			new_p.Y -= pt1.Y;
+			new_p.Z -= pt1.Z;
+			
+			rotate_0X_new(ref new_p, alpha);
+			rotate_0Y_new(ref new_p, beta);
+			rotate_0Z_new(ref new_p, angle);
+			rotate_0Y_new(ref new_p, -beta);
+			rotate_0X_new(ref new_p, -alpha);
+			
+			new_p.X += pt1.X;
+			new_p.Y += pt1.Y;
+			new_p.Z += pt1.Z;
+			
+			return new_p;
 		}
 		
 		private void button11_Click(object sender, EventArgs e)
@@ -633,7 +657,7 @@ namespace Lab7
 						double y = pt.X*ortographic_matr[0,1]+pt.Y*ortographic_matr[1,1]+pt.Z*ortographic_matr[2,1]+ortographic_matr[3,1];
 						double z = pt.X*ortographic_matr[0,2]+pt.Y*ortographic_matr[1,2]+pt.Z*ortographic_matr[2,2]+ortographic_matr[3,2];
 						
-						if (z==0)
+						if (z == 0)
 							ff.add(new point3D(x,y,0));
 						else if (y == 0)
 							ff.add(new point3D(x, z, 0));
@@ -697,6 +721,64 @@ namespace Lab7
 					facets.Add(fac);
 				}
 			}
+			initialize_points();
+			redraw_image();
+		}
+		
+		void but13_click(object sender, System.EventArgs e){
+			OpenFileDialog load_points = new OpenFileDialog();
+			load_points.ShowDialog();
+			if (!load_points.CheckFileExists){
+				MessageBox.Show("Choose File");
+				return;
+			}
+			
+			string[] lines = File.ReadAllLines(load_points.FileName);
+			var size_lines = lines.Length;
+			for (int i = 0; i < size_lines; i++){
+				string[] pts = lines[i].Split(',');
+				var pts_count = pts.Length;
+				var f = new facet();
+				for (int g = 0; g < pts_count; g++) {
+					string s = pts[g].TrimStart(' ');
+					string[] xyz = s.Split(' ');
+					var x = Double.Parse(xyz[0]);
+					var y = Double.Parse(xyz[1]);
+					var z = Double.Parse(xyz[2]);
+					f.add(new point3D(x,y,z));
+				}
+				facets.Add(f);
+			}
+			initialize_points();
+			redraw_image();
+		}
+		
+		void but14_click(object sender, System.EventArgs e){
+			clcs++;
+			if (clcs<2) return;
+			clcs=0;
+			double steps = Int32.Parse(textBox7.Text);
+			double angle = ((360.0/steps)* Math.PI) / 180D;
+
+			for (int i = 0; i < steps; i++) {
+				pts_rotate.Add(new List<point3D>());
+				int sz = pts_rotate[i].Count;
+				for (int g = 0; g < sz; g++)
+					pts_rotate[i+1].Add(axis_rotate_point(axis_P1,axis_P2,pts_rotate[i][g], angle));
+			}
+
+			for (int i = 0; i < pts_rotate.Count-1; i++) {
+				for (int g = 0; g < pts_rotate[i].Count-1; g++) {
+					var fac = new facet();
+					fac.add(pts_rotate[i][g]);
+					fac.add(pts_rotate[i][g+1]);
+					fac.add(pts_rotate[i+1][g+1]);
+					fac.add(pts_rotate[i+1][g]);
+					facets.Add(fac);
+				}
+			}
+			axis_P1=axis_P2=null;
+			initialize_points();
 			redraw_image();
 		}
 	}
@@ -716,7 +798,6 @@ namespace Lab7
             this.Y = y;
             this.Z = z;
         }
-
     }
 
     public class facet
@@ -747,7 +828,5 @@ namespace Lab7
             var n = new point3D(aY * bZ - aZ * bY, aZ * bX - aX * bZ, aX * bY - aY * bX);
             return (aX * bY - aY * bX <= 0);
         }
-        
-			
 	}
 }
