@@ -77,6 +77,7 @@ namespace Lab7
 			this.button12 = new System.Windows.Forms.Button();
 			this.button13 = new System.Windows.Forms.Button();
 			this.button14 = new System.Windows.Forms.Button();
+			this.button15 = new System.Windows.Forms.Button();
 			this.center = new System.Windows.Forms.RadioButton();
 			this.isometric = new System.Windows.Forms.RadioButton();
 			this.orthographic = new System.Windows.Forms.RadioButton();
@@ -605,55 +606,55 @@ namespace Lab7
          this.comboBox1.Text = "Выберите фигуру";
          this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
          // 
-			// comboBox3
-			// 
-			this.comboBox3.FormattingEnabled = true;
-			this.comboBox3.Items.AddRange(new object[] {
-			"x+y",
-			"x-y",
-			"x^2+y^2",
-			"x^2-y^2"});
-			this.comboBox3.Location = new System.Drawing.Point(1065, this.button11.Location.Y+40);
-			this.comboBox3.Name = "comboBox3";
-			this.comboBox3.Size = new System.Drawing.Size(122, 21);
-			this.comboBox3.TabIndex = 30;
-			this.comboBox3.Text = "Functions";
-			// 
-			// textBox4
-			// 
-			this.textBox4.Location = new System.Drawing.Point(1070, this.comboBox3.Location.Y+25);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(101, 20);
-			this.textBox4.Text = "x0,x1";
-			this.textBox4.TabIndex=31;
-			// 
-			// textBox5
-			// 
-			this.textBox5.Location = new System.Drawing.Point(1070, this.textBox4.Location.Y+25);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.Size = new System.Drawing.Size(101, 20);
-			this.textBox5.Text = "y0,y1";
-			this.textBox5.TabIndex=32;
-			// 
-			// textBox6
-			// 
-			this.textBox6.Location = new System.Drawing.Point(1070, this.textBox5.Location.Y+25);
-			this.textBox6.Name = "textBox6";
-			this.textBox6.Size = new System.Drawing.Size(101, 20);
-			this.textBox6.Text = "1";
-			this.textBox6.TabIndex=33;
-			// 
-			// button12
-			// 
-			this.button12.Location = new System.Drawing.Point(1080, this.textBox6.Location.Y+25);
-			this.button12.Name = "button12";
-			this.button12.Size = new System.Drawing.Size(101, 23);
-			this.button12.TabIndex = 34;
-			this.button12.Text = "Draw";
-			this.button12.UseVisualStyleBackColor = true;
-			this.button12.Click += new System.EventHandler(this.draw_click);
-			// 
-         // button13
+		// comboBox3
+		// 
+		this.comboBox3.FormattingEnabled = true;
+		this.comboBox3.Items.AddRange(new object[] {
+		"x+y",
+		"x-y",
+		"x^2+y^2",
+		"x^2-y^2"});
+		this.comboBox3.Location = new System.Drawing.Point(1065, this.button11.Location.Y+40);
+		this.comboBox3.Name = "comboBox3";
+		this.comboBox3.Size = new System.Drawing.Size(122, 21);
+		this.comboBox3.TabIndex = 30;
+		this.comboBox3.Text = "Functions";
+		// 
+		// textBox4
+		// 
+		this.textBox4.Location = new System.Drawing.Point(1070, this.comboBox3.Location.Y+25);
+		this.textBox4.Name = "textBox4";
+		this.textBox4.Size = new System.Drawing.Size(101, 20);
+		this.textBox4.Text = "x0,x1";
+		this.textBox4.TabIndex=31;
+		// 
+		// textBox5
+		// 
+		this.textBox5.Location = new System.Drawing.Point(1070, this.textBox4.Location.Y+25);
+		this.textBox5.Name = "textBox5";
+		this.textBox5.Size = new System.Drawing.Size(101, 20);
+		this.textBox5.Text = "y0,y1";
+		this.textBox5.TabIndex=32;
+		// 
+		// textBox6
+		// 
+		this.textBox6.Location = new System.Drawing.Point(1070, this.textBox5.Location.Y+25);
+		this.textBox6.Name = "textBox6";
+		this.textBox6.Size = new System.Drawing.Size(101, 20);
+		this.textBox6.Text = "1";
+		this.textBox6.TabIndex=33;
+		// 
+		// button12
+		// 
+		this.button12.Location = new System.Drawing.Point(1080, this.textBox6.Location.Y+25);
+		this.button12.Name = "button12";
+		this.button12.Size = new System.Drawing.Size(101, 23);
+		this.button12.TabIndex = 34;
+		this.button12.Text = "Draw";
+		this.button12.UseVisualStyleBackColor = true;
+		this.button12.Click += new System.EventHandler(this.draw_click);
+		// 
+        // button13
          // 
          this.button13.Location = new System.Drawing.Point(1090, this.button12.Location.Y+50);
          this.button13.Name = "button13";
@@ -663,13 +664,13 @@ namespace Lab7
          this.button13.Click += new System.EventHandler(but13_click);
          this.button13.TabIndex=35;
          // 
-			// textBox7
-			// 
-			this.textBox7.Location = new System.Drawing.Point(1070, this.button13.Location.Y+40);
-			this.textBox7.Name = "textBox7";
-			this.textBox7.Size = new System.Drawing.Size(101, 20);
-			this.textBox7.Text = "step";
-			this.textBox7.TabIndex=36;
+		// textBox7
+		// 
+		this.textBox7.Location = new System.Drawing.Point(1070, this.button13.Location.Y+40);
+		this.textBox7.Name = "textBox7";
+		this.textBox7.Size = new System.Drawing.Size(101, 20);
+		this.textBox7.Text = "step";
+		this.textBox7.TabIndex=36;
          // 
          // button14
          // 
@@ -680,12 +681,23 @@ namespace Lab7
          this.button14.TabIndex=37;
          this.button14.UseVisualStyleBackColor = true;
          this.button14.Click += new System.EventHandler(but14_click);
-			// 
-			// MainForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+		// 
+		// button15
+		// 
+		this.button15.Location = new System.Drawing.Point(1090, 630);
+		this.button15.Name = "button15";
+		this.button15.AutoSize = true;
+		this.button15.Text = "Save";
+		this.button15.TabIndex = 38;
+		this.button15.UseVisualStyleBackColor = true;
+		this.button15.Click += new System.EventHandler(Button15_Click);
+		// 
+		// MainForm
+		// 
+		this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(1200, 654);
+         this.Controls.Add(this.button15);
          this.Controls.Add(this.textBox7);
          this.Controls.Add(this.button14);
          this.Controls.Add(this.button13);
@@ -799,6 +811,7 @@ namespace Lab7
 		private System.Windows.Forms.Button button12;
 		private System.Windows.Forms.Button button13;
 		private System.Windows.Forms.Button button14;
+		private System.Windows.Forms.Button button15;
 		private System.Windows.Forms.RadioButton center;
 		private System.Windows.Forms.RadioButton isometric;
 		private System.Windows.Forms.RadioButton orthographic;

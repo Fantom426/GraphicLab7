@@ -736,7 +736,7 @@ namespace Lab7
 			string[] lines = File.ReadAllLines(load_points.FileName);
 			var size_lines = lines.Length;
 			for (int i = 0; i < size_lines; i++){
-				string[] pts = lines[i].Split(',');
+				string[] pts = lines[i].Split(';');
 				var pts_count = pts.Length;
 				var f = new facet();
 				for (int g = 0; g < pts_count; g++) {
@@ -780,6 +780,27 @@ namespace Lab7
 			axis_P1=axis_P2=null;
 			initialize_points();
 			redraw_image();
+		}
+
+		private void Button15_Click(object sender, System.EventArgs e)
+		{
+			int sz = facets.Count;
+			List<string> res = new List<string>();
+			for (int i = 0; i < sz; i++)
+			{
+				var f = facets[i];
+				int c_pts = f.points.Count;
+				string s = "";
+				for (int g = 0; g < c_pts - 1; g++)
+				{
+					var pt = f.points[g];
+					s += pt.X.ToString() + " " + pt.Y.ToString() + " " + pt.Z.ToString();
+					s += "; ";
+				}
+				s += f.points[c_pts - 1].X.ToString() + " " + f.points[c_pts - 1].Y.ToString() +" "+ f.points[c_pts - 1].Z.ToString();
+				res.Add(s);
+			}
+			File.WriteAllLines("saved_figure.txt", res.ToArray());
 		}
 	}
 
